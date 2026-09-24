@@ -5,5 +5,5 @@ package apiproject;
  * The initialization component acts as the "user" client that calls this module.
  */
 public interface ComputationEngineAPI {
-    DataStreamWrapper performCollatzComputation(DataStreamWrapper inputData);
+  DataStreamWrapper performCollatzComputation(DataStreamWrapper inputData);
 }

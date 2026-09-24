@@ -5,6 +5,6 @@ package apiproject;
  * storage locations and the calculation engine.
  */
 public interface DataComputeAPI {
-    DataStreamWrapper readData(JobSource source);
-    void writeData(JobDestination destination, DataStreamWrapper processedData);
+  DataStreamWrapper readData(JobSource source);
+  void writeData(JobDestination destination, DataStreamWrapper processedData);
 }

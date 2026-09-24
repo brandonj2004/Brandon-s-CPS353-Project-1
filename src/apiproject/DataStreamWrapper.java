@@ -6,5 +6,5 @@ import java.util.List;
  * from a List/Array to an actual streaming architecture later without breaking contracts.
  */
 public interface DataStreamWrapper {
-    List<Integer> getDataAsList();
+  List<Integer> getDataAsList();
 }
