@@ -1,17 +1,16 @@
 package apiproject.processes;
 
 public enum Status {
-    COMPLETE(true),
-    INCOMPLETE(false);
+  COMPLETE(true),
+  INCOMPLETE(false);
 
-    private boolean complete;
+  private boolean complete;
 
-    private Status(boolean complete) {
-        this.complete = complete;
-    }
+  private Status(boolean complete) {
+    this.complete = complete;
+  }
 
-    public boolean complete() {
-        return complete;
-    }
+  public boolean complete() {
+    return complete;
+  }
 }
-
