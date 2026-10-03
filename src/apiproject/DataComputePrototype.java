@@ -8,7 +8,7 @@ public class DataComputePrototype implements DataComputeAPI {
   @Override
   public DataStreamWrapper readData(JobSource source) {
     System.out.println("Prototype DataComputeAPI: Reading input from " + source.getDescription());
-    // Simple mock returning an initial user input number (e.g., 6) wrapped as a collection
+
     return () -> List.of(6);
   }
 

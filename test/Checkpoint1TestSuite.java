@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URL;
+import java.net.URLConnection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -46,15 +47,18 @@ public class Checkpoint1TestSuite {
 
   // query the git remote to find the repo URL
   private String getBaseApiPath() throws Exception {
-    Process getRemote = new ProcessBuilder("git", "remote", "get-url", "origin", "--push").start();
-    getRemote.waitFor();
-    String output = new String(getRemote.getInputStream().readAllBytes());
-    String ownerRepo = output.substring("https://github.com/".length());
-    int removeTrailingGit = ownerRepo.lastIndexOf(".");
-    if (removeTrailingGit < 0) {
-      removeTrailingGit = ownerRepo.length() - 1;
+    String ownerRepo = System.getenv("GITHUB_REPOSITORY");
+    if (ownerRepo == null || ownerRepo.isBlank()) {
+      Process getRemote = new ProcessBuilder("git", "remote", "get-url", "origin", "--push").start();
+      getRemote.waitFor();
+      String output = new String(getRemote.getInputStream().readAllBytes());
+      ownerRepo = output.substring("https://github.com/".length());
+      int removeTrailingGit = ownerRepo.lastIndexOf(".");
+      if (removeTrailingGit < 0) {
+        removeTrailingGit = ownerRepo.length() - 1;
+      }
+      ownerRepo = ownerRepo.substring(0, removeTrailingGit);
     }
-    ownerRepo = ownerRepo.substring(0, removeTrailingGit);
 
     return "https://api.github.com/repos/" + ownerRepo + "/";
   }
@@ -153,10 +157,15 @@ public class Checkpoint1TestSuite {
 
   private String curl(String toCurl) throws Exception {
     URL url = new URI(toCurl).toURL();
+    URLConnection connection = url.openConnection();
+    String token = System.getenv("GITHUB_TOKEN");
+    if (token != null && !token.isBlank()) {
+      connection.setRequestProperty("Authorization", "Bearer " + token);
+    }
 
     String result = "";
-    try (BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream(),
-            "UTF-8"))) {
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(
+            connection.getInputStream(), "UTF-8"))) {
       String line;
       while ((line = reader.readLine()) != null) {
         result += line + "\n";

@@ -1,8 +1,8 @@
 package apiproject;
 
-/**
- * The primary API boundary interface between the user and the compute engine.
- */
+import project.annotations.NetworkAPI;
+
+@NetworkAPI
 public interface UserComputeAPI {
-  void submitJob(UserJobRequest request);
+  JobSubmissionResponse submitJob(UserJobRequest request);
 }
