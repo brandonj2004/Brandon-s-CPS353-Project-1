@@ -19,6 +19,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      pull-requests: read
+      checks: read
 
     steps:
     - uses: actions/checkout@v4
@@ -35,3 +37,5 @@ jobs:
 
     - name: Build with Gradle Wrapper
       run: chmod a+rwx gradlew; ./gradlew build
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
