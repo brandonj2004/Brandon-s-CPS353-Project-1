@@ -1,5 +1,5 @@
-package apiproject;
+package apiproject.network;
 
 public interface JobSubmissionResponse {
-  boolean isSuccess();
+    // TBD
 }
