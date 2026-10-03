@@ -5,9 +5,9 @@ import java.util.Collections;
 
 public class ComputationPrototype {
 
-    @ConceptualAPIPrototype
-    public void prototypeComputation(ComputationEngineAPI api) {
-        DataStreamWrapper input = () -> Collections.singletonList(6);
-        api.performComputation(input);
-    }
+  @ConceptualAPIPrototype
+  public void prototypeComputation(ComputationEngineAPI api) {
+    DataStreamWrapper input = () -> Collections.singletonList(6);
+    api.performComputation(input);
+  }
 }

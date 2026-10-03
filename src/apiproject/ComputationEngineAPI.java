@@ -4,5 +4,5 @@ import project.annotations.ConceptualAPI;
 
 @ConceptualAPI
 public interface ComputationEngineAPI {
-    DataStreamWrapper performComputation(DataStreamWrapper inputData);
+  DataStreamWrapper performComputation(DataStreamWrapper inputData);
 }

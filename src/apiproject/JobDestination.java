@@ -1,5 +1,5 @@
 package apiproject;
 
 public interface JobDestination {
-    String getTarget();
+  String getTarget();
 }
