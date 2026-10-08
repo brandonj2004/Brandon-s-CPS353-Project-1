@@ -1,6 +1,6 @@
 package project.network;
 
-import project.annotations.NetworkAPIPrototype;
+import apiproject.annotations.NetworkAPIPrototype;
 import project.processes.Job;
 
 public class UserAPIPrototype {

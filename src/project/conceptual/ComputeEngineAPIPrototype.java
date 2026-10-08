@@ -1,6 +1,6 @@
 package project.conceptual;
 
-import project.annotations.ConceptualAPIPrototype;
+import apiproject.annotations.ConceptualAPIPrototype;
 import project.processes.InputForCompute;
 
 public class ComputeEngineAPIPrototype {

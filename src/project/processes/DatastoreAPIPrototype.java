@@ -1,6 +1,6 @@
 package project.processes;
 
-import project.annotations.ProcessAPIPrototype;
+import apiproject.annotations.ProcessAPIPrototype;
 
 public class DatastoreAPIPrototype {
 

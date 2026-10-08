@@ -1,6 +1,6 @@
 package project.conceptual;
 
-import project.annotations.ConceptualAPI;
+import apiproject.annotations.ConceptualAPI;
 import project.processes.InputForCompute;
 
 @ConceptualAPI

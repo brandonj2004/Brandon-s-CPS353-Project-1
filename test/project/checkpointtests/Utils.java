@@ -6,11 +6,9 @@ import java.util.List;
 
 public class Utils {
     public static List<Class<?>> loadAllClasses() throws Exception {
-        File rootDir = new File("src");
+        File rootDir = new File("src/project");
         List<Class<?>> result = new ArrayList<>();
-        for (File f : rootDir.listFiles()) {
-            loadClassesRec(f, result, "");
-        }
+        loadClassesRec(rootDir, result, "");
         return result;
     }
     

@@ -1,6 +1,6 @@
 package project.network;
 
-import project.annotations.NetworkAPI;
+import apiproject.annotations.NetworkAPI;
 import project.processes.Job;
 
 @NetworkAPI
