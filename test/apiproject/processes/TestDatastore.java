@@ -8,18 +8,18 @@ import static org.mockito.Mockito.mock;
 
 public class TestDatastore {
 
-    @Test
+  @Test
     public void testDatastoreCanBeCreated() {
-        DatastoreImpl datastore = new DatastoreImpl();
+    DatastoreImpl datastore = new DatastoreImpl();
 
-        assertNotNull(datastore);
-    }
+    assertNotNull(datastore);
+  }
 
-    @Test
+  @Test
     public void testJobCanBeMocked() {
-        Job job = mock(Job.class);
+    Job job = mock(Job.class);
 
-        assertNotNull(job);
-    }
+    assertNotNull(job);
+  }
 }
 

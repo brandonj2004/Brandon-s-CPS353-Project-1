@@ -7,29 +7,29 @@ import java.util.List;
 
 public class ComputeEngineImpl implements ComputeEngine {
 
-    private OutputValue computedOutput;
+  private OutputValue computedOutput;
 
-    @Override
+  @Override
     public OutputValue solve(InputForCompute input) {
-        List<Integer> results = new ArrayList<>();
+    List<Integer> results = new ArrayList<>();
 
-        for (Integer value : input.getValues()) {
-            results.add(value * value);
-        }
+    for (Integer value : input.getValues()) {
+      results.add(value * value);
+    }
 
-        computedOutput = new OutputValue() {
-            @Override
+    computedOutput = new OutputValue() {
+        @Override
             public List<Integer> getValues() {
-                return new ArrayList<>(results);
-            }
+            return new ArrayList<>(results);
+          }
         };
 
-        return computedOutput;
-    }
+    return computedOutput;
+  }
 
-    @Override
+  @Override
     public SendOutputResponse sendOutput(OutputValue val) {
-        computedOutput = val;
-        return null;
-    }
+    computedOutput = val;
+    return null;
+  }
 }
