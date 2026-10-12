@@ -9,17 +9,17 @@ import static org.mockito.Mockito.mock;
 
 public class TestComputeEngine {
 
-    @Test
-    public void testComputeEngineCanBeCreated() {
-        ComputeEngineImpl engine = new ComputeEngineImpl();
+  @Test
+  public void testComputeEngineCanBeCreated() {
+    ComputeEngineImpl engine = new ComputeEngineImpl();
 
-        assertNotNull(engine);
-    }
+    assertNotNull(engine);
+  }
 
-    @Test
-    public void testInputCanBeMocked() {
-        InputForCompute input = mock(InputForCompute.class);
+  @Test
+  public void testInputCanBeMocked() {
+    InputForCompute input = mock(InputForCompute.class);
 
-        assertNotNull(input);
-    }
+    assertNotNull(input);
+  }
 }

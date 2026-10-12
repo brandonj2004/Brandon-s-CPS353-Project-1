@@ -14,29 +14,29 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ComputeEngineIntegrationTest {
 
-    @Test
-    public void testComputeEngineWithInMemoryDataStore() {
-        InMemoryInputSource input =
-            new InMemoryInputSource(Arrays.asList(1, 10, 25));
+  @Test
+  public void testComputeEngineWithInMemoryDataStore() {
+    InMemoryInputSource input =
+        new InMemoryInputSource(Arrays.asList(1, 10, 25));
 
-        InMemoryOutputSource output = new InMemoryOutputSource();
+    InMemoryOutputSource output = new InMemoryOutputSource();
 
-        ComputeEngineImpl computeEngine = new ComputeEngineImpl();
+    ComputeEngineImpl computeEngine = new ComputeEngineImpl();
 
-        InMemoryDatastore datastore =
-            new InMemoryDatastore(input, output);
+    InMemoryDatastore datastore =
+        new InMemoryDatastore(input, output);
 
-        UserImpl user = new UserImpl(datastore, computeEngine);
+    UserImpl user = new UserImpl(datastore, computeEngine);
 
-        // Configure the output destination before submitting the job.
-        user.configJobRequest(input, output, null);
+    // Configure the output destination before submitting the job.
+    user.configJobRequest(input, output, null);
 
-        Job job = new Job();
-        user.submitJob(job);
+    Job job = new Job();
+    user.submitJob(job);
 
-        List<String> expectedOutput =
-            Arrays.asList("1", "100", "625");
+    List<String> expectedOutput =
+        Arrays.asList("1", "100", "625");
 
-        assertEquals(expectedOutput, output.outputValues);
-    }
+    assertEquals(expectedOutput, output.outputValues);
+  }
 }

@@ -10,13 +10,13 @@ import static org.mockito.Mockito.mock;
 
 public class TestUser {
 
-    @Test
-    public void testUserCanBeCreated() {
-        Datastore datastore = mock(Datastore.class);
-        ComputeEngine computeEngine = mock(ComputeEngine.class);
+  @Test
+  public void testUserCanBeCreated() {
+    Datastore datastore = mock(Datastore.class);
+    ComputeEngine computeEngine = mock(ComputeEngine.class);
 
-        UserImpl user = new UserImpl(datastore, computeEngine);
+    UserImpl user = new UserImpl(datastore, computeEngine);
 
-        assertNotNull(user);
-    }
+    assertNotNull(user);
+  }
 }
