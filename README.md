@@ -16,20 +16,37 @@ This computation can be CPU intensive for larger input values because the system
 
 ## System Architecture
 
-```mermaid
+
 flowchart LR
-    U["User / Initialization & I/O"]
-    D["Data Storage"]
-    C["Computation Engine"]
+    subgraph N["Network API"]
+        U["User / Initialization & I/O"]
+        J["UserJobRequest<br/>JobSource<br/>JobDestination"]
+    end
+
+    subgraph P["Process API"]
+        D["Data Storage"]
+        W["DataStreamWrapper"]
+    end
+
+    subgraph C["Conceptual API"]
+        E["Computation Engine"]
+        CC["Collatz Calculation<br/><br/>Even → n / 2<br/>Odd → 3n + 1<br/>Stop when n = 1"]
+    end
+
     O["Output / Destination"]
 
-    U <-->|"UserComputeAPI"| C
-    D <-->|"DataComputeAPI"| C
-    U <-->|"ComputationEngineAPI"| C
+    U -->|"Job / input request"| D
+    D -->|"Input data response"| U
 
-    U --- UR["UserJobRequest<br/>JobSource<br/>JobDestination"]
-    D --- DW["DataStreamWrapper"]
+    U -->|"Compute request"| E
+    E -->|"Computed sequence response"| U
 
-    C --- CC["Collatz Calculation<br/><br/>Even → n / 2<br/>Odd → 3n + 1<br/>Stop → 1"]
+    D -->|"Input values request"| E
+    E -->|"Calculation result response"| D
 
-    C -->|"Computed Sequence"| O
+    U --- J
+    D --- W
+    E --- CC
+
+    U -->|"Write formatted output request"| O
+    O -->|"Output status response"| U
