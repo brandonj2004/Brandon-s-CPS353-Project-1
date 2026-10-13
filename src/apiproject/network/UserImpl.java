@@ -21,21 +21,21 @@ public class UserImpl implements User {
   }
 
   @Override
-    public ConfigJobResponse configJobRequest(
-            InputSource in, OutputSource out, Delimiters delim) {
+  public ConfigJobResponse configJobRequest(
+      InputSource in, OutputSource out, Delimiters delim) {
     this.outputSource = out;
     return null;
   }
 
   @Override
-    public Job configJob(
-            InputSource in, OutputSource out, Delimiters delim) {
+  public Job configJob(
+      InputSource in, OutputSource out, Delimiters delim) {
     this.outputSource = out;
     return null;
   }
 
   @Override
-    public JobSubmissionResponse submitJob(Job job) {
+  public JobSubmissionResponse submitJob(Job job) {
     InputForCompute input = datastore.extractInputFromJob(job);
     OutputValue result = computeEngine.solve(input);
     computeEngine.sendOutput(result);
@@ -54,7 +54,7 @@ public class UserImpl implements User {
   }
 
   @Override
-    public FormattedOutputResponse loadFormattedOutput(OutputSource src) {
+  public FormattedOutputResponse loadFormattedOutput(OutputSource src) {
     return null;
   }
 }

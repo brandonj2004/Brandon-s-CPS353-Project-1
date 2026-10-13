@@ -10,14 +10,14 @@ import static org.mockito.Mockito.mock;
 public class TestComputeEngine {
 
   @Test
-    public void testComputeEngineCanBeCreated() {
+  public void testComputeEngineCanBeCreated() {
     ComputeEngineImpl engine = new ComputeEngineImpl();
 
     assertNotNull(engine);
   }
 
   @Test
-    public void testInputCanBeMocked() {
+  public void testInputCanBeMocked() {
     InputForCompute input = mock(InputForCompute.class);
 
     assertNotNull(input);

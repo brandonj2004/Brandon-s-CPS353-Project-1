@@ -13,7 +13,7 @@ public class InMemoryOutputSource extends OutputSource {
   }
 
   @Override
-    public void writeValues(List<String> values) {
+  public void writeValues(List<String> values) {
     outputValues.clear();
     outputValues.addAll(values);
   }

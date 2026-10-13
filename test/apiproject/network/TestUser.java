@@ -11,7 +11,7 @@ import static org.mockito.Mockito.mock;
 public class TestUser {
 
   @Test
-    public void testUserCanBeCreated() {
+  public void testUserCanBeCreated() {
     Datastore datastore = mock(Datastore.class);
     ComputeEngine computeEngine = mock(ComputeEngine.class);
 

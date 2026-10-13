@@ -10,7 +10,7 @@ public class ComputeEngineImpl implements ComputeEngine {
   private OutputValue computedOutput;
 
   @Override
-    public OutputValue solve(InputForCompute input) {
+  public OutputValue solve(InputForCompute input) {
     List<Integer> results = new ArrayList<>();
 
     for (Integer value : input.getValues()) {
@@ -18,17 +18,17 @@ public class ComputeEngineImpl implements ComputeEngine {
     }
 
     computedOutput = new OutputValue() {
-        @Override
-            public List<Integer> getValues() {
-            return new ArrayList<>(results);
-          }
-        };
+      @Override
+      public List<Integer> getValues() {
+        return new ArrayList<>(results);
+      }
+    };
 
     return computedOutput;
   }
 
   @Override
-    public SendOutputResponse sendOutput(OutputValue val) {
+  public SendOutputResponse sendOutput(OutputValue val) {
     computedOutput = val;
     return null;
   }
