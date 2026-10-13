@@ -15,38 +15,49 @@ This computation can be CPU intensive for larger input values because the system
 
 
 ## System Architecture
+```mermaid
+flowchart TD
+    U["User / Initialization & I/O"]
+    D["Data Storage"]
+    C["Computation Engine"]
+    O["Output / Destination"]
 
-
-flowchart LR
     subgraph N["Network API"]
-        U["User / Initialization & I/O"]
-        J["UserJobRequest<br/>JobSource<br/>JobDestination"]
+        N1["User Job Request"]
+        N2["Job Source / Job Destination"]
     end
 
     subgraph P["Process API"]
-        D["Data Storage"]
-        W["DataStreamWrapper"]
+        P1["Data Stream Wrapper"]
+        P2["Job and Input Management"]
     end
 
-    subgraph C["Conceptual API"]
-        E["Computation Engine"]
-        CC["Collatz Calculation<br/><br/>Even → n / 2<br/>Odd → 3n + 1<br/>Stop when n = 1"]
+    subgraph CP["Conceptual API"]
+        C1["Collatz Calculation"]
+        C2["Even: n / 2"]
+        C3["Odd: 3n + 1"]
+        C4["Stop when n = 1"]
     end
 
-    O["Output / Destination"]
+    U -->|"Request: Submit Job"| D
+    D -->|"Response: Job Data"| U
 
-    U -->|"Job / input request"| D
-    D -->|"Input data response"| U
+    U -->|"Request: Compute Sequence"| C
+    C -->|"Response: Computed Sequence"| U
 
-    U -->|"Compute request"| E
-    E -->|"Computed sequence response"| U
+    D -->|"Request: Input Values"| C
+    C -->|"Response: Calculation Result"| D
 
-    D -->|"Input values request"| E
-    E -->|"Calculation result response"| D
+    U -->|"Request: Write Output"| O
+    O -->|"Response: Output Status"| U
 
-    U --- J
-    D --- W
-    E --- CC
-
-    U -->|"Write formatted output request"| O
-    O -->|"Output status response"| U
+    %% Corrected API connection syntax
+    U --> N1
+    N1 --> N2
+    D --> P1
+    P1 --> P2
+    C --> C1
+    C1 --> C2
+    C1 --> C3
+    C1 --> C4
+```
