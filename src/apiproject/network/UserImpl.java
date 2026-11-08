@@ -1,4 +1,3 @@
-
 package apiproject.network;
 
 import apiproject.processes.InputForCompute;
@@ -6,7 +5,6 @@ import apiproject.conceptual.ComputeEngine;
 import apiproject.conceptual.OutputValue;
 import apiproject.processes.Datastore;
 import apiproject.processes.Job;
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserImpl implements User {
@@ -23,38 +21,53 @@ public class UserImpl implements User {
   @Override
   public ConfigJobResponse configJobRequest(
       InputSource in, OutputSource out, Delimiters delim) {
+
     this.outputSource = out;
-    return null;
+
+    return new ConfigJobResponse() {
+      @Override
+      public ConfigJobResponseCode getResponseCode() {
+        return ConfigJobResponseCode.Passed;
+      }
+    };
   }
 
   @Override
   public Job configJob(
       InputSource in, OutputSource out, Delimiters delim) {
+
     this.outputSource = out;
-    return null;
+
+    return new Job(in, out, delim);
   }
 
   @Override
   public JobSubmissionResponse submitJob(Job job) {
+
     InputForCompute input = datastore.extractInputFromJob(job);
+
     OutputValue result = computeEngine.solve(input);
+
     computeEngine.sendOutput(result);
 
-    if (outputSource != null) {
-      List<String> formattedValues = new ArrayList<>();
+    OutputSource destination = job.getOutputSource();
 
-      for (Integer value : result.getValues()) {
-        formattedValues.add(String.valueOf(value));
-      }
-
-      outputSource.writeValues(formattedValues);
+    if (destination == null) {
+      destination = outputSource;
     }
 
-    return null;
+    if (destination != null) {
+      List<String> formattedValues = result.getValues();
+      destination.writeValues(formattedValues);
+    }
+
+    return new JobSubmissionResponse() {
+    };
   }
 
   @Override
   public FormattedOutputResponse loadFormattedOutput(OutputSource src) {
-    return null;
+    return new FormattedOutputResponse() {
+    };
   }
 }
