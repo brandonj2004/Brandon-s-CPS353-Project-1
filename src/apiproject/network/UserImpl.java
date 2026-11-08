@@ -41,11 +41,7 @@ public class UserImpl implements User {
     computeEngine.sendOutput(result);
 
     if (outputSource != null) {
-      List<String> formattedValues = new ArrayList<>();
-
-      for (Integer value : result.getValues()) {
-        formattedValues.add(String.valueOf(value));
-      }
+      List<String> formattedValues = result.getValues();
 
       outputSource.writeValues(formattedValues);
     }
