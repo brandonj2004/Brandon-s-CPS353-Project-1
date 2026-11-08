@@ -34,8 +34,11 @@ public class ComputeEngineIntegrationTest {
     Job job = new Job();
     user.submitJob(job);
 
-    List<String> expectedOutput =
-        Arrays.asList("1", "100", "625");
+    List<String> expectedOutput = Arrays.asList(
+        "1",
+        "10 -> 5 -> 16 -> 8 -> 4 -> 2 -> 1",
+        "25 -> 76 -> 38 -> 19 -> 58 -> 29 -> 88 -> 44 -> 22 -> 11 -> 34 -> 17 -> 52 -> 26 -> 13 -> 40 -> 20 -> 10 -> 5 -> 16 -> 8 -> 4 -> 2 -> 1"
+    );
 
     assertEquals(expectedOutput, output.outputValues);
   }
