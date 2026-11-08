@@ -1,5 +1,6 @@
-
 package apiproject.processes;
+
+import java.io.IOException;
 
 public class DatastoreImpl implements Datastore {
 
@@ -15,7 +16,7 @@ public class DatastoreImpl implements Datastore {
 
   @Override
   public Status isComplete(Job job) {
-    return null;
+    return Status.COMPLETE;
   }
 
   @Override
@@ -35,6 +36,10 @@ public class DatastoreImpl implements Datastore {
 
   @Override
   public InputForCompute extractInputFromJob(Job job) {
-    return null;
+    try {
+      return new InputForCompute(job.getInputSource().readValues());
+    } catch (IOException e) {
+      throw new RuntimeException("Unable to read input file.", e);
+    }
   }
 }
