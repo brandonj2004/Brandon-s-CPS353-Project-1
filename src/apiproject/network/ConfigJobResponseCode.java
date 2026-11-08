@@ -15,7 +15,6 @@ public enum ConfigJobResponseCode {
   }
 
   boolean success() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'success'");
+    return pass;
   }
 }

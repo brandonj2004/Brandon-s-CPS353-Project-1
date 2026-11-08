@@ -59,8 +59,8 @@ public class InMemoryDatastore implements Datastore {
   public void writeResults(apiproject.conceptual.OutputValue result) {
     output.outputValues.clear();
 
-    for (Integer value : result.getValues()) {
-      output.outputValues.add(String.valueOf(value));
+    for (String value : result.getValues()) {
+      output.outputValues.add(value);
     }
   }
 }
