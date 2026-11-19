@@ -1,6 +1,8 @@
 package apiproject.conceptual;
 
+import apiproject.network.ResponseCode;
 import apiproject.processes.InputForCompute;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,65 +11,96 @@ public class ComputeEngineImpl implements ComputeEngine {
   private OutputValue computedOutput;
 
   @Override
-  public OutputValue solve(InputForCompute input) {
+  public SolveResponse solve(InputForCompute input) {
 
-    if (input == null) {
-      throw new IllegalArgumentException("Input is required.");
-    }
-
-    List<Integer> values = input.getValues();
-
-    if (values == null || values.isEmpty()) {
-      throw new IllegalArgumentException(
-          "At least one input value is required.");
-    }
-
-    List<String> results = new ArrayList<>();
-
-    for (Integer value : values) {
-
-      if (value == null || value <= 0) {
-        throw new IllegalArgumentException(
-            "Collatz input must be a positive integer.");
+    try {
+      if (input == null) {
+        return createSolveResponse(ResponseCode.INVALID_ARGUMENT, null);
       }
 
-      long current = value;
-      String sequence = String.valueOf(current);
+      List<Integer> values = input.getValues();
 
-      while (current != 1) {
-        if (current % 2 == 0) {
-          current = current / 2;
-        } else {
-          current = (current * 3) + 1;
+      if (values == null || values.isEmpty()) {
+        return createSolveResponse(ResponseCode.INVALID_ARGUMENT, null);
+      }
+
+      List<String> results = new ArrayList<>();
+
+      for (Integer value : values) {
+        if (value == null || value <= 0) {
+          return createSolveResponse(ResponseCode.INVALID_ARGUMENT, null);
         }
 
-        sequence = sequence + " -> " + current;
+        long current = value;
+        String sequence = String.valueOf(current);
+
+        while (current != 1) {
+          if (current % 2 == 0) {
+            current = current / 2;
+          } else {
+            current = (current * 3) + 1;
+          }
+
+          sequence = sequence + " -> " + current;
+        }
+
+        results.add(sequence);
       }
 
-      results.add(sequence);
-    }
+      computedOutput = new OutputValue() {
+        @Override
+        public List<String> getValues() {
+          return new ArrayList<>(results);
+        }
+      };
 
-    computedOutput = new OutputValue() {
+      return createSolveResponse(ResponseCode.SUCCESS, computedOutput);
+
+    } catch (RuntimeException e) {
+      return createSolveResponse(ResponseCode.INTERNAL_ERROR, null);
+    }
+  }
+
+  private SolveResponse createSolveResponse(
+      ResponseCode responseCode, OutputValue output) {
+
+    return new SolveResponse() {
       @Override
-      public List<String> getValues() {
-        return new ArrayList<>(results);
+      public ResponseCode getResponseCode() {
+        return responseCode;
+      }
+
+      @Override
+      public OutputValue getOutput() {
+        return output;
       }
     };
-
-    return computedOutput;
   }
 
   @Override
   public SendOutputResponse sendOutput(OutputValue val) {
 
-    if (val == null || val.getValues() == null) {
-      throw new IllegalArgumentException(
-          "Computed output is required.");
-    }
+    try {
+      if (val == null || val.getValues() == null) {
+        return createSendOutputResponse(ResponseCode.INVALID_ARGUMENT);
+      }
 
-    computedOutput = val;
+      computedOutput = val;
+      return createSendOutputResponse(ResponseCode.SUCCESS);
+
+    } catch (RuntimeException e) {
+      return createSendOutputResponse(ResponseCode.INTERNAL_ERROR);
+    }
+  }
+
+  private SendOutputResponse createSendOutputResponse(
+      ResponseCode responseCode) {
 
     return new SendOutputResponse() {
+      @Override
+      public ResponseCode getResponseCode() {
+        return responseCode;
+      }
     };
   }
 }

@@ -1,5 +1,8 @@
 package apiproject.conceptual;
 
+import apiproject.network.ResponseCode;
+
 public interface SendOutputResponse {
-    // TBD
+
+  ResponseCode getResponseCode();
 }
