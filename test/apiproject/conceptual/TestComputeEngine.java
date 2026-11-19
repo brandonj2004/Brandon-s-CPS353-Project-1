@@ -112,4 +112,32 @@ public class TestComputeEngine {
         IllegalArgumentException.class,
         () -> engine.solve(input));
   }
+
+  @Test
+  public void testNullInputThrowsException() {
+    ComputeEngineImpl engine = new ComputeEngineImpl();
+
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> engine.solve(null));
+  }
+
+  @Test
+  public void testEmptyInputThrowsException() {
+    ComputeEngineImpl engine = new ComputeEngineImpl();
+
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> engine.solve(new InputForCompute()));
+  }
+
+  @Test
+  public void testNullOutputThrowsException() {
+    ComputeEngineImpl engine = new ComputeEngineImpl();
+
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> engine.sendOutput(null));
+  }
+
 }

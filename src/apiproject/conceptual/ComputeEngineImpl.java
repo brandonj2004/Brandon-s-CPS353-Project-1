@@ -10,9 +10,21 @@ public class ComputeEngineImpl implements ComputeEngine {
 
   @Override
   public OutputValue solve(InputForCompute input) {
+
+    if (input == null) {
+      throw new IllegalArgumentException("Input is required.");
+    }
+
+    List<Integer> values = input.getValues();
+
+    if (values == null || values.isEmpty()) {
+      throw new IllegalArgumentException(
+          "At least one input value is required.");
+    }
+
     List<String> results = new ArrayList<>();
 
-    for (Integer value : input.getValues()) {
+    for (Integer value : values) {
 
       if (value == null || value <= 0) {
         throw new IllegalArgumentException(
@@ -47,6 +59,12 @@ public class ComputeEngineImpl implements ComputeEngine {
 
   @Override
   public SendOutputResponse sendOutput(OutputValue val) {
+
+    if (val == null || val.getValues() == null) {
+      throw new IllegalArgumentException(
+          "Computed output is required.");
+    }
+
     computedOutput = val;
 
     return new SendOutputResponse() {
