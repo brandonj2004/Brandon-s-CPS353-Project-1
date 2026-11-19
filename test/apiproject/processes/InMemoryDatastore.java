@@ -1,6 +1,6 @@
-
 package apiproject.processes;
 
+import apiproject.conceptual.OutputValue;
 import apiproject.network.InMemoryInputSource;
 import apiproject.network.InMemoryOutputSource;
 
@@ -50,13 +50,21 @@ public class InMemoryDatastore implements Datastore {
     return new InputForCompute(input.getInputValues());
   }
 
+  @Override
+  public WriteJobResponse writeOutput(Job job, OutputValue result) {
+    writeResults(result);
+
+    return new WriteJobResponse() {
+    };
+  }
+
   public void writeResults() {
     for (Integer value : input.getInputValues()) {
       output.outputValues.add(String.valueOf(value));
     }
   }
 
-  public void writeResults(apiproject.conceptual.OutputValue result) {
+  public void writeResults(OutputValue result) {
     output.outputValues.clear();
 
     for (String value : result.getValues()) {

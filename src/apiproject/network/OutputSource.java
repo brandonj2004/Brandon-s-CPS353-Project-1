@@ -1,10 +1,5 @@
 package apiproject.network;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
-
 public class OutputSource {
 
   private final String filePath;
@@ -24,17 +19,11 @@ public class OutputSource {
     this.delimiters = delimiters;
   }
 
-  public void writeValues(List<String> values) {
-    if (filePath == null) {
-      return;
-    }
+  public String getFilePath() {
+    return filePath;
+  }
 
-    String output = String.join(delimiters.getSeparator(), values);
-
-    try {
-      Files.write(Paths.get(filePath), output.getBytes());
-    } catch (IOException e) {
-      throw new RuntimeException("Unable to write output file.", e);
-    }
+  public Delimiters getDelimiters() {
+    return delimiters;
   }
 }

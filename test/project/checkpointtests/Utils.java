@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Utils {
   public static List<Class<?>> loadAllClasses() throws Exception {
-    File rootDir = new File("src/project");
+    File rootDir = new File("src/apiproject");
     List<Class<?>> result = new ArrayList<>();
     loadClassesRec(rootDir, result, "");
     return result;
