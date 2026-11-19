@@ -100,24 +100,8 @@ public class DatastoreImpl implements Datastore {
       throw new IllegalArgumentException("Job input file is required.");
     }
 
-    List<Integer> values = new ArrayList<>();
-
     try {
-      List<String> lines =
-          Files.readAllLines(Paths.get(job.getInputSource().getFilePath()));
-
-      for (String line : lines) {
-        String[] numbers = line.trim().split("[,\\s]+");
-
-        for (String number : numbers) {
-          if (!number.isEmpty()) {
-            values.add(Integer.parseInt(number));
-          }
-        }
-      }
-
-      return new InputForCompute(values);
-
+      return new InputForCompute(job.getInputSource().readValues());
     } catch (IOException e) {
       throw new RuntimeException("Unable to read input file.", e);
     }

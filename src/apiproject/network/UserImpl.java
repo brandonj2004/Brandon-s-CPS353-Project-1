@@ -5,11 +5,13 @@ import apiproject.conceptual.ComputeEngine;
 import apiproject.conceptual.OutputValue;
 import apiproject.processes.Datastore;
 import apiproject.processes.Job;
+import java.util.List;
 
 public class UserImpl implements User {
 
   private final Datastore datastore;
   private final ComputeEngine computeEngine;
+  private OutputSource outputSource;
 
   public UserImpl(Datastore datastore, ComputeEngine computeEngine) {
     this.datastore = datastore;
@@ -19,6 +21,8 @@ public class UserImpl implements User {
   @Override
   public ConfigJobResponse configJobRequest(
       InputSource in, OutputSource out, Delimiters delim) {
+
+    this.outputSource = out;
 
     return new ConfigJobResponse() {
       @Override
@@ -32,6 +36,8 @@ public class UserImpl implements User {
   public Job configJob(
       InputSource in, OutputSource out, Delimiters delim) {
 
+    this.outputSource = out;
+
     return new Job(in, out, delim);
   }
 
@@ -44,7 +50,18 @@ public class UserImpl implements User {
 
     computeEngine.sendOutput(result);
 
-    datastore.writeOutput(job, result);
+    OutputSource destination = job.getOutputSource();
+
+    if (destination == null) {
+      destination = outputSource;
+    }
+
+    if (job.getOutputSource() != null) {
+      datastore.writeOutput(job, result);
+    } else if (destination != null) {
+      List<String> formattedValues = result.getValues();
+      destination.writeValues(formattedValues);
+    }
 
     return new JobSubmissionResponse() {
     };
