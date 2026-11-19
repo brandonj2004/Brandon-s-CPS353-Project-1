@@ -3,6 +3,7 @@ package apiproject.network;
 import apiproject.processes.InputForCompute;
 import apiproject.conceptual.ComputeEngine;
 import apiproject.conceptual.OutputValue;
+import apiproject.conceptual.SolveResponse;
 import apiproject.processes.Datastore;
 import apiproject.processes.Job;
 import java.util.List;
@@ -46,7 +47,16 @@ public class UserImpl implements User {
 
     InputForCompute input = datastore.extractInputFromJob(job);
 
-    OutputValue result = computeEngine.solve(input);
+    SolveResponse response = computeEngine.solve(input);
+    if (response == null || response.getResponseCode() != ResponseCode.SUCCESS
+        || response.getOutput() == null) {
+      if (response != null && response.getResponseCode() == ResponseCode.INVALID_ARGUMENT) {
+        throw new IllegalArgumentException("Invalid compute input.");
+      }
+      throw new IllegalStateException("Computation failed.");
+    }
+
+    OutputValue result = response.getOutput();
 
     computeEngine.sendOutput(result);
 
