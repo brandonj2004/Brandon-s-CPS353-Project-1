@@ -18,6 +18,10 @@ public class InputSource {
     this.filePath = filePath;
   }
 
+  public String getFilePath() {
+    return filePath;
+  }
+
   public List<Integer> readValues() throws IOException {
     List<Integer> values = new ArrayList<>();
 
@@ -32,7 +36,6 @@ public class InputSource {
         }
       }
     }
-
     return values;
   }
 }

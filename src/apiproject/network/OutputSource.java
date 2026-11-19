@@ -24,6 +24,14 @@ public class OutputSource {
     this.delimiters = delimiters;
   }
 
+  public String getFilePath() {
+    return filePath;
+  }
+
+  public Delimiters getDelimiters() {
+    return delimiters;
+  }
+
   public void writeValues(List<String> values) {
     if (filePath == null) {
       return;
