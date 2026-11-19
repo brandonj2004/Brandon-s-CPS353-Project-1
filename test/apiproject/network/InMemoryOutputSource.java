@@ -1,4 +1,3 @@
-
 package apiproject.network;
 
 import java.util.ArrayList;
@@ -12,7 +11,6 @@ public class InMemoryOutputSource extends OutputSource {
     outputValues = new ArrayList<>();
   }
 
-  @Override
   public void writeValues(List<String> values) {
     outputValues.clear();
     outputValues.addAll(values);

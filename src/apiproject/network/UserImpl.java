@@ -56,7 +56,9 @@ public class UserImpl implements User {
       destination = outputSource;
     }
 
-    if (destination != null) {
+    if (job.getOutputSource() != null) {
+      datastore.writeOutput(job, result);
+    } else if (destination != null) {
       List<String> formattedValues = result.getValues();
       destination.writeValues(formattedValues);
     }
