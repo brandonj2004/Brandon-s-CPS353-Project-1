@@ -1,6 +1,6 @@
 package apiproject.conceptual;
 
-import apiproject.network.ResponseCode;
+import apiproject.network.JobResponseStatus;
 import apiproject.processes.InputForCompute;
 
 import java.util.ArrayList;
@@ -11,24 +11,27 @@ public class ComputeEngineImpl implements ComputeEngine {
   private OutputValue computedOutput;
 
   @Override
-  public SolveResponse solve(InputForCompute input) {
+  public ComputationResult solve(InputForCompute input) {
 
     try {
       if (input == null) {
-        return createSolveResponse(ResponseCode.INVALID_ARGUMENT, null);
+        return createComputationResult(
+            JobResponseStatus.INVALID_INPUT, null);
       }
 
       List<Integer> values = input.getValues();
 
       if (values == null || values.isEmpty()) {
-        return createSolveResponse(ResponseCode.INVALID_ARGUMENT, null);
+        return createComputationResult(
+            JobResponseStatus.INVALID_INPUT, null);
       }
 
       List<String> results = new ArrayList<>();
 
       for (Integer value : values) {
         if (value == null || value <= 0) {
-          return createSolveResponse(ResponseCode.INVALID_ARGUMENT, null);
+          return createComputationResult(
+              JobResponseStatus.INVALID_INPUT, null);
         }
 
         long current = value;
@@ -54,20 +57,22 @@ public class ComputeEngineImpl implements ComputeEngine {
         }
       };
 
-      return createSolveResponse(ResponseCode.SUCCESS, computedOutput);
+      return createComputationResult(
+          JobResponseStatus.COMPLETED, computedOutput);
 
     } catch (RuntimeException e) {
-      return createSolveResponse(ResponseCode.INTERNAL_ERROR, null);
+      return createComputationResult(
+          JobResponseStatus.PROCESSING_ERROR, null);
     }
   }
 
-  private SolveResponse createSolveResponse(
-      ResponseCode responseCode, OutputValue output) {
+  private ComputationResult createComputationResult(
+      JobResponseStatus status, OutputValue output) {
 
-    return new SolveResponse() {
+    return new ComputationResult() {
       @Override
-      public ResponseCode getResponseCode() {
-        return responseCode;
+      public JobResponseStatus getStatus() {
+        return status;
       }
 
       @Override
@@ -78,28 +83,27 @@ public class ComputeEngineImpl implements ComputeEngine {
   }
 
   @Override
-  public SendOutputResponse sendOutput(OutputValue val) {
+  public OutputStatus sendOutput(OutputValue val) {
 
     try {
       if (val == null || val.getValues() == null) {
-        return createSendOutputResponse(ResponseCode.INVALID_ARGUMENT);
+        return createOutputStatus(JobResponseStatus.INVALID_INPUT);
       }
 
       computedOutput = val;
-      return createSendOutputResponse(ResponseCode.SUCCESS);
+      return createOutputStatus(JobResponseStatus.COMPLETED);
 
     } catch (RuntimeException e) {
-      return createSendOutputResponse(ResponseCode.INTERNAL_ERROR);
+      return createOutputStatus(JobResponseStatus.PROCESSING_ERROR);
     }
   }
 
-  private SendOutputResponse createSendOutputResponse(
-      ResponseCode responseCode) {
+  private OutputStatus createOutputStatus(JobResponseStatus status) {
 
-    return new SendOutputResponse() {
+    return new OutputStatus() {
       @Override
-      public ResponseCode getResponseCode() {
-        return responseCode;
+      public JobResponseStatus getStatus() {
+        return status;
       }
     };
   }

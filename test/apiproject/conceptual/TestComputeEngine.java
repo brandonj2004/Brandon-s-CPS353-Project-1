@@ -1,7 +1,8 @@
 package apiproject.conceptual;
 
-import apiproject.network.ResponseCode;
+import apiproject.network.JobResponseStatus;
 import apiproject.processes.InputForCompute;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,30 +24,30 @@ public class TestComputeEngine {
   @Test
   public void testCollatzSequenceForOne() {
     ComputeEngineImpl engine = new ComputeEngineImpl();
-    SolveResponse response =
+    ComputationResult response =
         engine.solve(new InputForCompute(Arrays.asList(1)));
 
-    assertEquals(ResponseCode.SUCCESS, response.getResponseCode());
+    assertEquals(JobResponseStatus.COMPLETED, response.getStatus());
     assertEquals(Arrays.asList("1"), response.getOutput().getValues());
   }
 
   @Test
   public void testCollatzSequenceForTwo() {
     ComputeEngineImpl engine = new ComputeEngineImpl();
-    SolveResponse response =
+    ComputationResult response =
         engine.solve(new InputForCompute(Arrays.asList(2)));
 
-    assertEquals(ResponseCode.SUCCESS, response.getResponseCode());
+    assertEquals(JobResponseStatus.COMPLETED, response.getStatus());
     assertEquals(Arrays.asList("2 -> 1"), response.getOutput().getValues());
   }
 
   @Test
   public void testCollatzSequenceForThree() {
     ComputeEngineImpl engine = new ComputeEngineImpl();
-    SolveResponse response =
+    ComputationResult response =
         engine.solve(new InputForCompute(Arrays.asList(3)));
 
-    assertEquals(ResponseCode.SUCCESS, response.getResponseCode());
+    assertEquals(JobResponseStatus.COMPLETED, response.getStatus());
     assertEquals(
         Arrays.asList("3 -> 10 -> 5 -> 16 -> 8 -> 4 -> 2 -> 1"),
         response.getOutput().getValues());
@@ -55,10 +56,10 @@ public class TestComputeEngine {
   @Test
   public void testMultipleInputs() {
     ComputeEngineImpl engine = new ComputeEngineImpl();
-    SolveResponse response =
+    ComputationResult response =
         engine.solve(new InputForCompute(Arrays.asList(1, 2, 3)));
 
-    assertEquals(ResponseCode.SUCCESS, response.getResponseCode());
+    assertEquals(JobResponseStatus.COMPLETED, response.getStatus());
     assertEquals(
         Arrays.asList(
             "1",
@@ -68,61 +69,62 @@ public class TestComputeEngine {
   }
 
   @Test
-  public void testZeroInputReturnsInvalidArgument() {
+  public void testZeroInputReturnsInvalidInput() {
     ComputeEngineImpl engine = new ComputeEngineImpl();
-    SolveResponse response =
+    ComputationResult response =
         engine.solve(new InputForCompute(Arrays.asList(0)));
 
-    assertEquals(ResponseCode.INVALID_ARGUMENT, response.getResponseCode());
+    assertEquals(JobResponseStatus.INVALID_INPUT, response.getStatus());
     assertNull(response.getOutput());
   }
 
   @Test
-  public void testNegativeInputReturnsInvalidArgument() {
+  public void testNegativeInputReturnsInvalidInput() {
     ComputeEngineImpl engine = new ComputeEngineImpl();
-    SolveResponse response =
+    ComputationResult response =
         engine.solve(new InputForCompute(Arrays.asList(-5)));
 
-    assertEquals(ResponseCode.INVALID_ARGUMENT, response.getResponseCode());
+    assertEquals(JobResponseStatus.INVALID_INPUT, response.getStatus());
     assertNull(response.getOutput());
   }
 
   @Test
-  public void testNullInputValueReturnsInvalidArgument() {
+  public void testNullInputValueReturnsInvalidInput() {
     ComputeEngineImpl engine = new ComputeEngineImpl();
     List<Integer> values = new ArrayList<>();
     values.add(null);
 
-    SolveResponse response =
+    ComputationResult response =
         engine.solve(new InputForCompute(values));
 
-    assertEquals(ResponseCode.INVALID_ARGUMENT, response.getResponseCode());
+    assertEquals(JobResponseStatus.INVALID_INPUT, response.getStatus());
     assertNull(response.getOutput());
   }
 
   @Test
-  public void testNullInputReturnsInvalidArgument() {
+  public void testNullInputReturnsInvalidInput() {
     ComputeEngineImpl engine = new ComputeEngineImpl();
-    SolveResponse response = engine.solve(null);
+    ComputationResult response = engine.solve(null);
 
-    assertEquals(ResponseCode.INVALID_ARGUMENT, response.getResponseCode());
+    assertEquals(JobResponseStatus.INVALID_INPUT, response.getStatus());
     assertNull(response.getOutput());
   }
 
   @Test
-  public void testEmptyInputReturnsInvalidArgument() {
+  public void testEmptyInputReturnsInvalidInput() {
     ComputeEngineImpl engine = new ComputeEngineImpl();
-    SolveResponse response = engine.solve(new InputForCompute());
+    ComputationResult response =
+        engine.solve(new InputForCompute());
 
-    assertEquals(ResponseCode.INVALID_ARGUMENT, response.getResponseCode());
+    assertEquals(JobResponseStatus.INVALID_INPUT, response.getStatus());
     assertNull(response.getOutput());
   }
 
   @Test
-  public void testNullOutputReturnsInvalidArgument() {
+  public void testNullOutputReturnsInvalidInput() {
     ComputeEngineImpl engine = new ComputeEngineImpl();
-    SendOutputResponse response = engine.sendOutput(null);
+    OutputStatus response = engine.sendOutput(null);
 
-    assertEquals(ResponseCode.INVALID_ARGUMENT, response.getResponseCode());
+    assertEquals(JobResponseStatus.INVALID_INPUT, response.getStatus());
   }
 }

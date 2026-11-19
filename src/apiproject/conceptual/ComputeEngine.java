@@ -6,8 +6,7 @@ import apiproject.processes.InputForCompute;
 @ConceptualAPI
 public interface ComputeEngine {
 
-  // Get output from computation program, given an input
-  SolveResponse solve(InputForCompute input);
+  ComputationResult solve(InputForCompute input);
 
-  SendOutputResponse sendOutput(OutputValue val);
+  OutputStatus sendOutput(OutputValue val);
 }
