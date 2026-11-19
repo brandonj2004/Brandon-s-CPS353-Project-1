@@ -1,8 +1,8 @@
 package apiproject.network;
 
+import apiproject.conceptual.ComputationResult;
 import apiproject.conceptual.ComputeEngine;
 import apiproject.conceptual.OutputValue;
-import apiproject.conceptual.SolveResponse;
 import apiproject.processes.Datastore;
 import apiproject.processes.InputForCompute;
 import apiproject.processes.Job;
@@ -46,11 +46,11 @@ public class TestUser {
         new InputForCompute(Arrays.asList(1, 2, 3));
 
     OutputValue output = mock(OutputValue.class);
-    SolveResponse response = mock(SolveResponse.class);
+    ComputationResult response = mock(ComputationResult.class);
 
     when(datastore.extractInputFromJob(job)).thenReturn(input);
     when(computeEngine.solve(input)).thenReturn(response);
-    when(response.getResponseCode()).thenReturn(ResponseCode.SUCCESS);
+    when(response.getStatus()).thenReturn(JobResponseStatus.COMPLETED);
     when(response.getOutput()).thenReturn(output);
 
     user.submitJob(job);
@@ -69,11 +69,11 @@ public class TestUser {
     Job job = new Job(new InputSource("input.txt"),
         new OutputSource("output.txt"), new Delimiters(","));
     InputForCompute input = new InputForCompute(Arrays.asList(0));
-    SolveResponse response = mock(SolveResponse.class);
+    ComputationResult response = mock(ComputationResult.class);
 
     when(datastore.extractInputFromJob(job)).thenReturn(input);
     when(computeEngine.solve(input)).thenReturn(response);
-    when(response.getResponseCode()).thenReturn(ResponseCode.INVALID_ARGUMENT);
+    when(response.getStatus()).thenReturn(JobResponseStatus.INVALID_INPUT);
 
     assertThrows(IllegalArgumentException.class, () -> user.submitJob(job));
     verify(computeEngine, never()).sendOutput(org.mockito.ArgumentMatchers.any());
