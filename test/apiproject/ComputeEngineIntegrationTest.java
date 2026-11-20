@@ -1,15 +1,20 @@
-
 package apiproject;
 
 import apiproject.conceptual.ComputeEngineImpl;
+import apiproject.network.Delimiters;
 import apiproject.network.InMemoryInputSource;
 import apiproject.network.InMemoryOutputSource;
+import apiproject.network.JobResponseStatus;
+import apiproject.network.JobSubmissionResponse;
 import apiproject.network.UserImpl;
 import apiproject.processes.InMemoryDatastore;
 import apiproject.processes.Job;
+
 import java.util.Arrays;
 import java.util.List;
+
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ComputeEngineIntegrationTest {
@@ -27,12 +32,14 @@ public class ComputeEngineIntegrationTest {
         new InMemoryDatastore(input, output);
 
     UserImpl user = new UserImpl(datastore, computeEngine);
+    Delimiters delimiters = new Delimiters(",");
 
-    // Configure the output destination before submitting the job.
-    user.configJobRequest(input, output, null);
+    user.configJobRequest(input, output, delimiters);
 
-    Job job = new Job();
-    user.submitJob(job);
+    Job job = new Job(input, output, delimiters);
+    JobSubmissionResponse response = user.submitJob(job);
+
+    assertEquals(JobResponseStatus.COMPLETED, response.getStatus());
 
     List<String> expectedOutput = Arrays.asList(
         "1",
