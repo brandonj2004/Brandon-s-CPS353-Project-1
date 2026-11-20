@@ -1,5 +1,10 @@
 package apiproject.network;
 
 public interface JobSubmissionResponse {
-    // TBD
+
+  JobResponseStatus getStatus();
+
+  String getErrorMessage();
+
+  boolean isSuccessful();
 }
